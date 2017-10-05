@@ -1,17 +1,19 @@
-package silveira.felipe.workUnit.rest;
+package silveira.felipe.workunit.rest;
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import silveira.felipe.workunit.WorkerManager;
 
 import javax.validation.constraints.NotNull;
-
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 /**
  * This class is the controller that receives calls to start workers.
@@ -19,12 +21,18 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @ComponentScan
 @EnableAutoConfiguration
 @RestController
-@RequestMapping(value = "workUnit/api/v0.1/worker")
+@RequestMapping(value = "workunit/api/v0.1/worker")
 public class WorkRequestController {
     /**
      * Logger object used to log messages.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkRequestController.class);
+
+    /**
+     * {@link WorkerManager}.
+     */
+    @Autowired
+    private WorkerManager workerManager;
 
     /**
      * This method handles the health check calls.
@@ -50,6 +58,6 @@ public class WorkRequestController {
         LOGGER.debug("requestWorkers method called with workers={}.", workers);
         return ResponseEntity
                 .ok()
-                .body(false);
+                .body(workerManager.requestWorkers(workers));
     }
 }

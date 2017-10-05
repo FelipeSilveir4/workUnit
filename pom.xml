@@ -23,7 +23,7 @@
     <!--<version>1.5.3.RELEASE</version>-->
     <!--</parent>-->
     <properties>
-        <start-class>silveira.felipe.workUnit.Application</start-class>
+        <start-class>silveira.felipe.workunit.Application</start-class>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -32,6 +32,7 @@
         <google-guava-version>19.0</google-guava-version>
         <commons-lang3-version>3.6</commons-lang3-version>
         <commons-lang.version>2.6</commons-lang.version>
+        <google.code.findbugs.version>2.0.1</google.code.findbugs.version>
         <slf4j.version>1.7.25</slf4j.version>
         <spring-boot-starter-log4j.version>1.3.8.RELEASE</spring-boot-starter-log4j.version>
         <spring.boot.starter.version>1.5.4.RELEASE</spring.boot.starter.version>
@@ -112,6 +113,11 @@
             <artifactId>commons-lang3</artifactId>
             <version>${commons-lang3-version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>${google.code.findbugs.version}</version>
+        </dependency>
     </dependencies>
 
 
@@ -132,6 +138,14 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>
