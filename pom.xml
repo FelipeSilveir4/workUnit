@@ -6,7 +6,7 @@
 
     <groupId>silveira.felipe</groupId>
     <artifactId>work-unit</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.3</version>
 
     <!-- ================================================================= -->
     <!-- Project Description                                               -->
@@ -36,6 +36,7 @@
         <slf4j.version>1.7.25</slf4j.version>
         <spring-boot-starter-log4j.version>1.3.8.RELEASE</spring-boot-starter-log4j.version>
         <spring.boot.starter.version>1.5.4.RELEASE</spring.boot.starter.version>
+        <apache.maven.plugins.version>3.7.0</apache.maven.plugins.version>
         <!-- Testing libraries -->
     </properties>
 
@@ -142,6 +143,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${apache.maven.plugins.version}</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>

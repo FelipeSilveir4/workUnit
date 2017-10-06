@@ -43,7 +43,7 @@ public class WorkerDispatcher {
     /**
      * Max number of workers.
      */
-    private static final int MAX_WORKERS = 1;
+    private static final int MAX_WORKERS = 10;
 
     /**
      * Static reference to a WorkerDispatcher instance.
