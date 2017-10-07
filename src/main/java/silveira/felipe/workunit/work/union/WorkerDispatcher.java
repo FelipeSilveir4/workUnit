@@ -26,10 +26,15 @@ package silveira.felipe.workunit.work.union;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 
+import com.google.common.primitives.Longs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import silveira.felipe.workunit.model.WorkReport;
 import silveira.felipe.workunit.model.WorkerThread;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.UUID;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -50,6 +55,11 @@ public class WorkerDispatcher {
      */
     private static WorkerDispatcher instance = null;
 
+    /**
+     * Id of the workers Union.
+     */
+    private static final String WORK_UNION_ID = UUID.nameUUIDFromBytes(Longs.toByteArray(Instant.now()
+            .toEpochMilli())).toString();
 
     /**
      * Workers executors.
@@ -79,8 +89,9 @@ public class WorkerDispatcher {
      * Assign work to workers.
      *
      * @param workersRequestNumber number of workers requested.
+     * @return the workers report.
      */
-    public synchronized Boolean assignWork(int workersRequestNumber) {
+    public synchronized WorkReport assignWork(int workersRequestNumber) {
         Runnable worker = new WorkerThread();
         if (workerExecutor.getMaximumPoolSize() - workerExecutor.getActiveCount() >= workersRequestNumber) {
             LOGGER.info("{} available.", workersRequestNumber);
@@ -88,10 +99,10 @@ public class WorkerDispatcher {
                 LOGGER.info("Worker #{} assigned.", i);
                 workerExecutor.execute(worker);
             }
-            return true;
+            return new WorkReport(WORK_UNION_ID, true);
         }
         LOGGER.info("Request rejected: No workers available.");
-        return false;
+        return new WorkReport(WORK_UNION_ID, false);
     }
 
     public void shutdown() {
