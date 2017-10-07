@@ -24,6 +24,8 @@
 
 package silveira.felipe.workunit.work.union;
 
+import silveira.felipe.workunit.model.WorkReport;
+
 import javax.annotation.Nonnull;
 
 /**
@@ -35,7 +37,8 @@ public interface Union {
      * Request a number of workers.
      *
      * @param workersNumber the number of workers requested.
+     * @return work report.
      */
-    Boolean requestWorkers(@Nonnull int workersNumber);
+    WorkReport requestWorkers(@Nonnull int workersNumber);
 
 }

@@ -24,7 +24,6 @@
 
 package silveira.felipe.workunit.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.primitives.Longs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +49,6 @@ public class WorkerThread implements Runnable {
     /**
      * Id of the WorkerThread.
      */
-    @JsonProperty(required = true)
     private String workerThreadId;
 
     /**

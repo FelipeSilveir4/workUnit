@@ -22,20 +22,36 @@
  * SOFTWARE.
  */
 
-package silveira.felipe.workunit;
+package silveira.felipe.workunit.model;
 
-import silveira.felipe.workunit.model.WorkReport;
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
 
 /**
- * This interface provides the methods for WorkerManager implementation.
+ * This class contains a representation of a work report.
  */
-public interface WorkerManager {
+@JsonInclude(NON_NULL)
+public class WorkReport {
 
     /**
-     * This method creates a work request for a specific number of workers.
-     *
-     * @return the Work report.
+     * Workers Id list.
      */
-    WorkReport requestWorkers(int workersNumber);
+    @JsonProperty(required = true)
+    private String workUnionId;
+
+    /**
+     * Work Accepted boolean.
+     */
+    @JsonProperty(required = true)
+    private Boolean workAccepted;
+
+    public WorkReport(String workUnionId, Boolean workAccepted) {
+        this.workUnionId = workUnionId;
+        this.workAccepted = workAccepted;
+    }
 
 }

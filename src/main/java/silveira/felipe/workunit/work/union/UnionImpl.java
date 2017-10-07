@@ -27,6 +27,7 @@ package silveira.felipe.workunit.work.union;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import silveira.felipe.workunit.model.WorkReport;
 
 import javax.annotation.Nonnull;
 
@@ -37,7 +38,7 @@ import javax.annotation.Nonnull;
 public class UnionImpl implements Union {
 
     /**
-     * Logger object that is used to log messages for a specific application component.
+     * Logger object used to log messages.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(UnionImpl.class);
 
@@ -56,7 +57,7 @@ public class UnionImpl implements Union {
 
 
     @Override
-    public Boolean requestWorkers(@Nonnull int workersNumber) {
+    public WorkReport requestWorkers(@Nonnull int workersNumber) {
         return workerDispatcher.assignWork(workersNumber);
     }
 }

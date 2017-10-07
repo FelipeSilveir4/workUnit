@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import silveira.felipe.workunit.WorkerManager;
+import silveira.felipe.workunit.model.WorkReport;
 
 import javax.validation.constraints.NotNull;
 
@@ -74,10 +75,10 @@ public class WorkRequestController {
      * This method handles the request for a specific number of workers.
      *
      * @param workers the numbers of workers requested.
-     * @return true if the work request was acknowledged or false if it was rejected.
+     * @return the Work report response.
      */
     @RequestMapping(value = "/workRequest", method = GET)
-    public ResponseEntity<Boolean> requestWorkers(
+    public ResponseEntity<WorkReport> requestWorkers(
             @RequestHeader(value = "workers") @NotNull final int workers) {
         LOGGER.debug("requestWorkers method called with workers={}.", workers);
         return ResponseEntity

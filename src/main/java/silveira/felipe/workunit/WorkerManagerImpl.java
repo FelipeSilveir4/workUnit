@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
+import silveira.felipe.workunit.model.WorkReport;
 import silveira.felipe.workunit.work.union.Union;
 import silveira.felipe.workunit.work.union.WorkerDispatcher;
 
@@ -43,7 +44,7 @@ public class WorkerManagerImpl implements WorkerManager {
     private Union union;
 
     @Override
-    public Boolean requestWorkers(int workersNumber) {
+    public WorkReport requestWorkers(int workersNumber) {
         return union.requestWorkers(workersNumber);
     }
 }
