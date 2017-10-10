@@ -57,7 +57,7 @@ public class UnionImpl implements Union {
 
 
     @Override
-    public WorkReport requestWorkers(@Nonnull int workersNumber) {
-        return workerDispatcher.assignWork(workersNumber);
+    public WorkReport requestWorkers(@Nonnull int workersNumber, String workLoadType) {
+        return workerDispatcher.assignWork(workersNumber, workLoadType);
     }
 }

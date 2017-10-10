@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -52,10 +53,16 @@ public class WorkerThread implements Runnable {
     private String workerThreadId;
 
     /**
+     * Work load type.
+     */
+    private String workLoadType;
+
+    /**
      * WorkerThread constructor.
      */
-    public WorkerThread() {
+    public WorkerThread(String workLoadType) {
         this.workerThreadId = UUID.nameUUIDFromBytes(Longs.toByteArray(Instant.now().toEpochMilli())).toString();
+        this.workLoadType = workLoadType;
     }
 
     /**
@@ -70,18 +77,67 @@ public class WorkerThread implements Runnable {
     @Override
     public void run() {
         LOGGER.info("[Worker: {}] Starting Work...", Thread.currentThread().getName());
-        long startTime = Instant.now().toEpochMilli();
-        long sleepTime = 100;
         try {
-            while (Instant.now().toEpochMilli() < startTime + WORK_PERIOD) {
-                if (Instant.now().toEpochMilli() % sleepTime == 0) {
-                    Thread.sleep((long) Math.floor(WORK_PERIOD * 0.5));
-                }
+
+            switch (this.workLoadType) {
+                case "high":
+                    highMemoryWork();
+                    break;
+                case "medium":
+                    mediumMemoryWork();
+                    break;
+                default:
+                    lightMemoryWork();
+                    break;
             }
             LOGGER.info("[Worker: {}] Work Done", Thread.currentThread().getName());
-        } catch (InterruptedException e) {
+        } catch (RuntimeException e) {
             LOGGER.error("Error performing work: {}.", e.getMessage(), e);
         }
+    }
 
+    /**
+     * This mocks a light work load.
+     */
+    public void lightMemoryWork() {
+        ArrayList<Byte[]> byteArrayList = new ArrayList<>();
+        Runtime runtime = Runtime.getRuntime();
+        LOGGER.info("Starting Light Memory Work(), free memory={}: ", runtime.freeMemory());
+
+        for (int i = 0; i < 500;i++) {
+            Byte[] bytes = new Byte[1048576];
+            byteArrayList.add(bytes);
+            LOGGER.info("Free memory={}, arraySize={}: ", runtime.freeMemory(), byteArrayList.size());
+        }
+    }
+
+    /**
+     * This mocks a medium work load.
+     */
+    public void mediumMemoryWork() {
+        ArrayList<Byte[]> byteArrayList = new ArrayList<>();
+        Runtime runtime = Runtime.getRuntime();
+        LOGGER.info("Starting Medium Memory Work(), free memory={}: ", runtime.freeMemory());
+
+        for (int i = 0; i < 750;i++) {
+            Byte[] bytes = new Byte[1048576];
+            byteArrayList.add(bytes);
+            LOGGER.info("Free memory={}, arraySize={}: ", runtime.freeMemory(), byteArrayList.size());
+        }
+    }
+
+    /**
+     * This mocks a high work load.
+     */
+    public void highMemoryWork() {
+        ArrayList<Byte[]> byteArrayList = new ArrayList<>();
+        Runtime runtime = Runtime.getRuntime();
+        LOGGER.info("Starting High Memory Work(), free memory={}: ", runtime.freeMemory());
+
+        for (int i = 0; i < 1000;i++) {
+            Byte[] bytes = new Byte[1048576];
+            byteArrayList.add(bytes);
+            LOGGER.info("Free memory={}, arraySize={}: ", runtime.freeMemory(), byteArrayList.size());
+        }
     }
 }

@@ -75,14 +75,16 @@ public class WorkRequestController {
      * This method handles the request for a specific number of workers.
      *
      * @param workers the numbers of workers requested.
+     * @param workLoadType work load type.
      * @return the Work report response.
      */
     @RequestMapping(value = "/workRequest", method = GET)
     public ResponseEntity<WorkReport> requestWorkers(
-            @RequestHeader(value = "workers") @NotNull final int workers) {
-        LOGGER.debug("requestWorkers method called with workers={}.", workers);
+            @RequestHeader(value = "workers") @NotNull final int workers,
+            @RequestHeader(value = "workLoadType") @NotNull final String workLoadType) {
+        LOGGER.debug("requestWorkers method called with workers={}, workLoadType={}.", workers, workLoadType);
         return ResponseEntity
                 .ok()
-                .body(workerManager.requestWorkers(workers));
+                .body(workerManager.requestWorkers(workers, workLoadType));
     }
 }

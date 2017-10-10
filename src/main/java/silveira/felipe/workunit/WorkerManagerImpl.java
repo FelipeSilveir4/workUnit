@@ -44,7 +44,7 @@ public class WorkerManagerImpl implements WorkerManager {
     private Union union;
 
     @Override
-    public WorkReport requestWorkers(int workersNumber) {
-        return union.requestWorkers(workersNumber);
+    public WorkReport requestWorkers(int workersNumber, String workLoadType) {
+        return union.requestWorkers(workersNumber, workLoadType);
     }
 }
