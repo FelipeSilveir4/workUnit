@@ -90,6 +90,7 @@ public class WorkerThread implements Runnable {
                     lightMemoryWork();
                     break;
             }
+            System.gc();
             LOGGER.info("[Worker: {}] Work Done", Thread.currentThread().getName());
         } catch (RuntimeException e) {
             LOGGER.error("Error performing work: {}.", e.getMessage(), e);
@@ -102,13 +103,14 @@ public class WorkerThread implements Runnable {
     public void lightMemoryWork() {
         ArrayList<Byte[]> byteArrayList = new ArrayList<>();
         Runtime runtime = Runtime.getRuntime();
-        LOGGER.info("Starting Light Memory Work(), free memory={}: ", runtime.freeMemory());
+        LOGGER.info("Starting Light Memory Work(), free memory={}MB: ", runtime.freeMemory() / 1000);
 
-        for (int i = 0; i < 500;i++) {
+        for (int i = 0; i < 10;i++) {
             Byte[] bytes = new Byte[1048576];
             byteArrayList.add(bytes);
-            LOGGER.info("Free memory={}, arraySize={}: ", runtime.freeMemory(), byteArrayList.size());
+            LOGGER.info("Free memory={}MB, arraySize={}: ", runtime.freeMemory() / 1000, byteArrayList.size());
         }
+        byteArrayList.clear();
     }
 
     /**
@@ -117,13 +119,14 @@ public class WorkerThread implements Runnable {
     public void mediumMemoryWork() {
         ArrayList<Byte[]> byteArrayList = new ArrayList<>();
         Runtime runtime = Runtime.getRuntime();
-        LOGGER.info("Starting Medium Memory Work(), free memory={}: ", runtime.freeMemory());
+        LOGGER.info("Starting Medium Memory Work(), free memory={}MB: ", runtime.freeMemory() / 1000);
 
-        for (int i = 0; i < 750;i++) {
+        for (int i = 0; i < 100;i++) {
             Byte[] bytes = new Byte[1048576];
             byteArrayList.add(bytes);
-            LOGGER.info("Free memory={}, arraySize={}: ", runtime.freeMemory(), byteArrayList.size());
+            LOGGER.info("Free memory={}MB, arraySize={}: ", runtime.freeMemory() / 1000, byteArrayList.size());
         }
+        byteArrayList.clear();
     }
 
     /**
@@ -132,12 +135,13 @@ public class WorkerThread implements Runnable {
     public void highMemoryWork() {
         ArrayList<Byte[]> byteArrayList = new ArrayList<>();
         Runtime runtime = Runtime.getRuntime();
-        LOGGER.info("Starting High Memory Work(), free memory={}: ", runtime.freeMemory());
+        LOGGER.info("Starting High Memory Work(), free memory={}MB: ", runtime.freeMemory() / 1000);
 
-        for (int i = 0; i < 1000;i++) {
+        for (int i = 0; i < 250;i++) {
             Byte[] bytes = new Byte[1048576];
             byteArrayList.add(bytes);
-            LOGGER.info("Free memory={}, arraySize={}: ", runtime.freeMemory(), byteArrayList.size());
+            LOGGER.info("Free memory={}MB, arraySize={}: ", runtime.freeMemory() / 1000, byteArrayList.size());
         }
+        byteArrayList.clear();
     }
 }
