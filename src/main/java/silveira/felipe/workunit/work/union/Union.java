@@ -39,6 +39,6 @@ public interface Union {
      * @param workersNumber the number of workers requested.
      * @return work report.
      */
-    WorkReport requestWorkers(@Nonnull int workersNumber);
+    WorkReport requestWorkers(@Nonnull int workersNumber, String workLoadType);
 
 }

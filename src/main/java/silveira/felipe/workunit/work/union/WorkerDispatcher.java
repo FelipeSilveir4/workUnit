@@ -91,8 +91,8 @@ public class WorkerDispatcher {
      * @param workersRequestNumber number of workers requested.
      * @return the workers report.
      */
-    public synchronized WorkReport assignWork(int workersRequestNumber) {
-        Runnable worker = new WorkerThread();
+    public synchronized WorkReport assignWork(int workersRequestNumber, String workLoadType) {
+        Runnable worker = new WorkerThread(workLoadType);
         if (workerExecutor.getMaximumPoolSize() - workerExecutor.getActiveCount() >= workersRequestNumber) {
             LOGGER.info("{} available.", workersRequestNumber);
             for (int i = 0; i < workersRequestNumber; i++) {

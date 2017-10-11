@@ -33,9 +33,11 @@ public interface WorkerManager {
 
     /**
      * This method creates a work request for a specific number of workers.
+     * @param workersNumber number of workers requested.
+     * @param workLoadType work load type.
      *
      * @return the Work report.
      */
-    WorkReport requestWorkers(int workersNumber);
+    WorkReport requestWorkers(int workersNumber, String workLoadType);
 
 }

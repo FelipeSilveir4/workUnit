@@ -24,8 +24,8 @@
 
 version: "2"
 services:
-  work-unit:
-    container_name: work-unit
+  work-unit-0:
+    container_name: work-unit-0
     build:
       context: .
     image: work-unit:latest
@@ -33,12 +33,48 @@ services:
     ports:
       - "8080:8080"
       - "8000:8000"
+  work-unit-1:
+    container_name: work-unit-1
+    build:
+      context: .
+    image: work-unit:latest
+    mem_limit: 250m
+    ports:
+      - "8081:8080"
+      - "8001:8000"
   work-unit-2:
     container_name: work-unit-2
     build:
       context: .
     image: work-unit:latest
-    mem_limit: 1000m
+    mem_limit: 500m
     ports:
-      - "8081:8080"
-      - "8001:8000"
+      - "8082:8080"
+      - "8002:8000"
+  work-unit-3:
+    container_name: work-unit-3
+    build:
+      context: .
+    image: work-unit:latest
+    mem_limit: 250m
+    ports:
+      - "8083:8080"
+      - "8003:8000"
+#  work-unit-4:
+#    container_name: work-unit-4
+#    build:
+#      context: .
+#    image: work-unit:latest
+#    mem_limit: 250m
+#    ports:
+#      - "8084:8080"
+#      - "8004:8000"
+#  work-unit-5:
+#    container_name: work-unit-5
+#    build:
+#      context: .
+#    image: work-unit:latest
+#    mem_limit: 500m
+#    ports:
+#      - "8085:8080"
+#      - "8005:8000"
