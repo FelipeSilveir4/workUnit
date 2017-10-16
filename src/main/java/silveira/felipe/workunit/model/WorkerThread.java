@@ -78,21 +78,31 @@ public class WorkerThread implements Runnable {
     public void run() {
         LOGGER.info("[Worker: {}] Starting Work...", Thread.currentThread().getName());
         try {
-
+            int workLoadTimeMutiplier = 1;
             switch (this.workLoadType) {
                 case "high":
-                    highMemoryWork();
+//                    highMemoryWork();
+                    workLoadTimeMutiplier = 6;
                     break;
                 case "medium":
-                    mediumMemoryWork();
+//                    mediumMemoryWork();
+                    workLoadTimeMutiplier = 4;
                     break;
                 default:
-                    lightMemoryWork();
+//                    lightMemoryWork();
+                    workLoadTimeMutiplier = 2;
                     break;
             }
-            System.gc();
+            long startTime = Instant.now().toEpochMilli();
+            long sleepTime = 6000;
+            while (Instant.now().toEpochMilli() < startTime + WORK_PERIOD * workLoadTimeMutiplier) {
+                if (Instant.now().toEpochMilli() % sleepTime == 0) {
+                    Thread.sleep((long) Math.floor(WORK_PERIOD * 0.5));
+                }
+            }
+
             LOGGER.info("[Worker: {}] Work Done", Thread.currentThread().getName());
-        } catch (RuntimeException e) {
+        } catch (InterruptedException e) {
             LOGGER.error("Error performing work: {}.", e.getMessage(), e);
         }
     }
