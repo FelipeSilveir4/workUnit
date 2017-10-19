@@ -1,18 +1,18 @@
 /**
  * MIT License
- *
+ * <p>
  * Copyright (c) 2017.  Felipe Silveira
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -29,7 +29,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -45,7 +44,7 @@ public class WorkerThread implements Runnable {
     /**
      * Work period in ms.
      */
-    private static final int WORK_PERIOD = 180000;
+    private static final int WORK_PERIOD = 1000;
 
     /**
      * Id of the WorkerThread.
@@ -78,70 +77,29 @@ public class WorkerThread implements Runnable {
     public void run() {
         LOGGER.info("[Worker: {}] Starting Work...", Thread.currentThread().getName());
         try {
-
+            int workLoadTimeMutiplier = 1;
             switch (this.workLoadType) {
                 case "high":
-                    highMemoryWork();
+                    workLoadTimeMutiplier = 6;
                     break;
                 case "medium":
-                    mediumMemoryWork();
+                    workLoadTimeMutiplier = 4;
                     break;
                 default:
-                    lightMemoryWork();
+                    workLoadTimeMutiplier = 2;
                     break;
             }
-            System.gc();
+            long startTime = Instant.now().toEpochMilli();
+            long sleepTime = 4000;
+            while (Instant.now().toEpochMilli() < startTime + WORK_PERIOD * workLoadTimeMutiplier) {
+                if (Instant.now().toEpochMilli() % sleepTime == 0) {
+                    Thread.sleep((long) Math.floor(WORK_PERIOD * 0.5));
+                }
+            }
+
             LOGGER.info("[Worker: {}] Work Done", Thread.currentThread().getName());
-        } catch (RuntimeException e) {
+        } catch (InterruptedException e) {
             LOGGER.error("Error performing work: {}.", e.getMessage(), e);
         }
-    }
-
-    /**
-     * This mocks a light work load.
-     */
-    public void lightMemoryWork() {
-        ArrayList<Byte[]> byteArrayList = new ArrayList<>();
-        Runtime runtime = Runtime.getRuntime();
-        LOGGER.info("Starting Light Memory Work(), free memory={}MB: ", runtime.freeMemory() / 1000);
-
-        for (int i = 0; i < 10;i++) {
-            Byte[] bytes = new Byte[1048576];
-            byteArrayList.add(bytes);
-            LOGGER.info("Free memory={}MB, arraySize={}: ", runtime.freeMemory() / 1000, byteArrayList.size());
-        }
-        byteArrayList.clear();
-    }
-
-    /**
-     * This mocks a medium work load.
-     */
-    public void mediumMemoryWork() {
-        ArrayList<Byte[]> byteArrayList = new ArrayList<>();
-        Runtime runtime = Runtime.getRuntime();
-        LOGGER.info("Starting Medium Memory Work(), free memory={}MB: ", runtime.freeMemory() / 1000);
-
-        for (int i = 0; i < 100;i++) {
-            Byte[] bytes = new Byte[1048576];
-            byteArrayList.add(bytes);
-            LOGGER.info("Free memory={}MB, arraySize={}: ", runtime.freeMemory() / 1000, byteArrayList.size());
-        }
-        byteArrayList.clear();
-    }
-
-    /**
-     * This mocks a high work load.
-     */
-    public void highMemoryWork() {
-        ArrayList<Byte[]> byteArrayList = new ArrayList<>();
-        Runtime runtime = Runtime.getRuntime();
-        LOGGER.info("Starting High Memory Work(), free memory={}MB: ", runtime.freeMemory() / 1000);
-
-        for (int i = 0; i < 250;i++) {
-            Byte[] bytes = new Byte[1048576];
-            byteArrayList.add(bytes);
-            LOGGER.info("Free memory={}MB, arraySize={}: ", runtime.freeMemory() / 1000, byteArrayList.size());
-        }
-        byteArrayList.clear();
     }
 }

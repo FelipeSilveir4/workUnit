@@ -33,6 +33,9 @@ services:
     ports:
       - "8080:8080"
       - "8000:8000"
+    environment:
+      MAX_WORKERS: 10
+
   work-unit-1:
     container_name: work-unit-1
     build:
@@ -42,6 +45,9 @@ services:
     ports:
       - "8081:8080"
       - "8001:8000"
+    environment:
+      MAX_WORKERS: 5
+
   work-unit-2:
     container_name: work-unit-2
     build:
@@ -51,15 +57,20 @@ services:
     ports:
       - "8082:8080"
       - "8002:8000"
-  work-unit-3:
-    container_name: work-unit-3
-    build:
-      context: .
-    image: work-unit:latest
-    mem_limit: 250m
-    ports:
-      - "8083:8080"
-      - "8003:8000"
+    environment:
+      MAX_WORKERS: 10
+
+#  work-unit-3:
+#    container_name: work-unit-3
+#    build:
+#      context: .
+#    image: work-unit:latest
+#    mem_limit: 250m
+#    ports:
+#      - "8083:8080"
+#      - "8003:8000"
+#    environment:
+#      MAX_WORKERS: 5
 #  work-unit-4:
 #    container_name: work-unit-4
 #    build:
@@ -69,6 +80,8 @@ services:
 #    ports:
 #      - "8084:8080"
 #      - "8004:8000"
+#    environment:
+#      MAX_WORKERS: 5
 #  work-unit-5:
 #    container_name: work-unit-5
 #    build:
@@ -78,3 +91,5 @@ services:
 #    ports:
 #      - "8085:8080"
 #      - "8005:8000"
+#    environment:
+#      MAX_WORKERS: 10
